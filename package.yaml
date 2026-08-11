@@ -1,0 +1,7 @@
+# Package definition for uv
+
+package_name: uv
+github_repo: astral-sh/uv
+artifact_format: tar.gz
+
+# Build for all Debian suites and all supported architectures.

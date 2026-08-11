@@ -1,0 +1,78 @@
+name: Build uv for Debian
+
+on:
+  workflow_dispatch:
+    inputs:
+      uv_version:
+        description: The version of uv to build (e.g. 0.12.3)
+        type: string
+        required: true
+      build_version:
+        description: Debian build revision (e.g. 1)
+        type: string
+        required: true
+        default: '1'
+      architecture:
+        description: Architecture to build (or 'all')
+        type: choice
+        default: 'all'
+        options:
+          - 'all'
+          - 'amd64'
+          - 'arm64'
+          - 'armel'
+          - 'armhf'
+          - 'ppc64el'
+          - 's390x'
+          - 'riscv64'
+      enable_lintian:
+        description: Enable lintian validation
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-uv:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build uv
+        uses: ranjithrajv/debian-multiarch-builder@v1
+        with:
+          config-file: 'package.yaml'
+          version: ${{ inputs.uv_version }}
+          build-version: ${{ inputs.build_version }}
+          architecture: ${{ inputs.architecture }}
+          lintian-check: ${{ inputs.enable_lintian }}
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: uv-debian-packages
+          path: uv_*.deb
+          if-no-files-found: error
+
+  release-uv:
+    name: Draft Release
+    if: github.ref == 'refs/heads/main'
+    needs: build-uv
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: uv-debian-packages
+
+      - name: Publish draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          tag_name: ${{ inputs.uv_version }}+${{ inputs.build_version }}
+          name: ${{ inputs.uv_version }}+${{ inputs.build_version }}
+          files: uv_*.deb
+          fail_on_unmatched_files: true
