@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build uv
-        uses: ranjithrajv/debian-multiarch-builder@v.0.1a6
+        uses: ranjithrajv/debian-multiarch-builder@v.0.1a8
         env:
           # Authenticate GitHub API calls from the builder; anonymous calls
           # from shared runner IPs are rate-limited (60/h) and caused
