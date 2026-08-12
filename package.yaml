@@ -3,5 +3,6 @@
 package_name: uv
 github_repo: astral-sh/uv
 artifact_format: tar.gz
+description: "An extremely fast Python package and project manager, written in Rust."
 
 # Build for all Debian suites and all supported architectures.
