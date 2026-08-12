@@ -1,3 +1,5 @@
+![uv for Debian](.github/readme-header.png)
+
 # uv for Debian
 
 [uv](https://github.com/astral-sh/uv) — an extremely fast Python package and
@@ -23,7 +25,7 @@ sudo dpkg -i uv_*.deb
 ## Supported distributions & architectures
 
 - Debian Bookworm (12), Trixie (13), Forky (14/testing), Sid (unstable)
-- amd64, arm64, armel, armhf, ppc64el, s390x, riscv64
+- amd64, arm64, armhf, i386 (bookworm/trixie), ppc64el, riscv64, s390x
 
 ## Building
 
