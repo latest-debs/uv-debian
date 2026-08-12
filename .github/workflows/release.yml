@@ -43,6 +43,11 @@ jobs:
 
       - name: Build uv
         uses: ranjithrajv/debian-multiarch-builder@v.0.1a6
+        env:
+          # Authenticate GitHub API calls from the builder; anonymous calls
+          # from shared runner IPs are rate-limited (60/h) and caused
+          # architecture detection to find zero release assets.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           config-file: 'package.yaml'
           version: ${{ inputs.uv_version }}
