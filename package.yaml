@@ -2,6 +2,7 @@
 
 package_name: uv
 github_repo: astral-sh/uv
+license: Apache-2.0
 artifact_format: tar.gz
 description: "An extremely fast Python package and project manager, written in Rust."
 
