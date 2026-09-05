@@ -7,3 +7,14 @@ artifact_format: tar.gz
 description: "An extremely fast Python package and project manager, written in Rust."
 
 # Build for all Debian suites and all supported architectures.
+
+# Opt into NATIVE Ubuntu builds (base image ubuntu:<suite>) instead of
+# relying on apt-repo's alias fallback, which serves Ubuntu suites as pool
+# copies of a Debian suite. questing is deliberately absent: the builder
+# drops it automatically as EOL (2026-07-01), so it stays on the alias.
+# Requires a builder with ubuntu_distributions support - see the pinned SHA
+# in .github/workflows/release.yml; the v.0.1a29 TAG predates the feature.
+ubuntu_distributions:
+  - jammy
+  - noble
+  - resolute
